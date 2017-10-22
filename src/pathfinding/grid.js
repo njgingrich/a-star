@@ -6,7 +6,6 @@ class Grid {
     this.rows = rows
     this.cols = cols
     this.grid = this.setupGrid()
-    this.dirty = []
   }
 
   setupGrid () {
@@ -32,23 +31,28 @@ class Grid {
     const south = coord.south()
     const east = coord.east()
     const west = coord.west()
-    let neighbors = []
 
-    console.log('GRID:', this.grid)
+    let neighbors = [north, south, east, west]
+    neighbors = neighbors.filter(c => {
+      return this.isWalkable(c) && this.withinBounds(c)
+    })
+    return neighbors.map(n => {
+      return this.grid[n.x][n.y].coord
+    })
 
-    if (this.isWalkable(north) && this.withinBounds(north)) {
-      neighbors.push(this.grid[north.x][north.y])
-    }
-    if (this.isWalkable(south) && this.withinBounds(south)) {
-      neighbors.push(this.grid[south.x][south.y])
-    }
-    if (this.isWalkable(east) && this.withinBounds(east)) {
-      neighbors.push(this.grid[east.x][east.y])
-    }
-    if (this.isWalkable(west) && this.withinBounds(west)) {
-      neighbors.push(this.grid[west.x][west.y])
-    }
-    return neighbors
+    // if (this.isWalkable(north) && this.withinBounds(north)) {
+    //   neighbors.push(this.grid[north.x][north.y])
+    // }
+    // if (this.isWalkable(south) && this.withinBounds(south)) {
+    //   neighbors.push(this.grid[south.x][south.y])
+    // }
+    // if (this.isWalkable(east) && this.withinBounds(east)) {
+    //   neighbors.push(this.grid[east.x][east.y])
+    // }
+    // if (this.isWalkable(west) && this.withinBounds(west)) {
+    //   neighbors.push(this.grid[west.x][west.y])
+    // }
+    // return neighbors
   }
 
   /**

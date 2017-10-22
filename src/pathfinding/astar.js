@@ -9,6 +9,31 @@ class AStar {
     this.grid = new Grid(rows, cols)
   }
 
+  search (from, to) {
+    return this.bfs(from, to)
+  }
+
+  bfs (from, to) {
+    let frontier = new Queue()
+    let cameFrom = {}
+
+    frontier.push(from)
+    cameFrom[from] = null
+
+    while (frontier.length > 0) {
+      let current = frontier.pop()
+      let neighbors = this.grid.findNeighbors(current)
+
+      neighbors.forEach(neighbor => {
+        if (!(neighbor in cameFrom)) {
+          frontier.push(neighbor)
+          cameFrom[neighbor] = current
+        }
+      })
+    }
+    return cameFrom
+  }
+
   findPath (from, to) {
     let openQueue = new Queue()
 

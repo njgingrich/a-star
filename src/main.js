@@ -16,7 +16,8 @@ new Vue({
 })
 
 let astar = new Astar(20, 20)
-let path = astar.findPath(new Coord(0, 0), new Coord(5, 10))
-path.forEach(coord => {
-  console.log(coord)
+let path = astar.search(new Coord(0, 0), new Coord(3, 1))
+
+Object.keys(path).forEach(coord => {
+  console.log(`${coord}, parent=${path[coord]}`)
 })
