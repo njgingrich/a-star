@@ -9,8 +9,13 @@ class AStar {
     this.grid = new Grid(rows, cols)
   }
 
-  search (from, to) {
-    return this.bfs(from, to)
+  search (from, to, type = 'bfs') {
+    if (type === 'bfs') {
+      return this.bfs(from, to)
+    }
+    else if (type === 'astar') {
+      return this.findPath(from, to)
+    }
   }
 
   bfs (from, to) {
