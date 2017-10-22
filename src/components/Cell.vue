@@ -1,5 +1,7 @@
 <template>
-  <div :class="typeClass" @click="changeType">
+  <div :class="typeClass" @click="changeType"
+                          @click.ctrl="setStart"
+                          @click.shift="setGoal">
   </div>
 </template>
 
@@ -7,7 +9,9 @@
 export default {
   name: 'cell',
   props: {
-    type: String
+    type: String,
+    x: Number,
+    y: Number
   },
   data () {
     return {
@@ -15,7 +19,8 @@ export default {
         NONE: 'none',
         OBSTACLE: 'obstacle',
         START: 'start',
-        GOAL: 'goal'
+        GOAL: 'goal',
+        PATH: 'path'
       },
       celltype: this.type
     }
@@ -27,6 +32,7 @@ export default {
   },
   methods: {
     changeType: function () {
+      console.log(`(${this.x}, ${this.y})`)
       if (this.celltype === this.CELL.NONE) {
         this.celltype = this.CELL.OBSTACLE
       }
@@ -39,6 +45,12 @@ export default {
       else if (this.celltype === this.CELL.GOAL) {
         this.celltype = this.CELL.NONE
       }
+    },
+    setStart: function () {
+      this.celltype = this.CELL.START
+    },
+    setGoal: function () {
+      this.celltype = this.CELL.GOAL
     }
   }
 }
@@ -66,5 +78,9 @@ export default {
 
 .cell-obstacle {
   background-color: #555;
+}
+
+.cell-path {
+  background-color: #aa4444;
 }
 </style>
