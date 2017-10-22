@@ -11,5 +11,6 @@ describe('Grid.vue', () => {
       }
     }).$mount()
     expect(vm.$el.querySelectorAll('.grid--row').length).to.equal(10)
+    expect(vm.$el.querySelectorAll('.cell').length).to.equal(10 * 10)
   })
 })

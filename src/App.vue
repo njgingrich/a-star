@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <header>
-      <span>A* Visualization</span>
+      <h1>A* Visualization</h1>
     </header>
     <main>
-      <grid :rows="10" :cols="10"></grid>
+      <input class="btn-input" v-model.number="rows" type="number">
+      <input class="btn-input" v-model.number="cols" type="number">
+      <grid :rows="rows" :cols="cols"></grid>
     </main>
   </div>
 </template>
@@ -16,6 +18,12 @@ export default {
   name: 'app',
   components: {
     Grid
+  },
+  data () {
+    return {
+      rows: 15,
+      cols: 25
+    }
   }
 }
 </script>
@@ -32,8 +40,17 @@ body {
   color: #2c3e50;
 }
 
+header {
+  text-align: center;
+}
+
 main {
   text-align: center;
   margin-top: 40px;
+}
+
+.btn-input {
+  display: inline;
+  margin: 1rem 2rem;
 }
 </style>

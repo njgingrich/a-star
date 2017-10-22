@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="grid--row" v-for="r in rows" :key="r">
-      <cell v-for="c in cols" :key="c"></cell>
+      <cell v-for="c in cols" :key="c" :type="type"></cell>
     </div>
   </div>
 </template>
@@ -20,9 +20,14 @@ export default {
   },
   data () {
     return {
-      rows: 10,
-      cols: 10
+      type: 'none'
     }
   }
 }
 </script>
+
+<<style lang="scss" scoped>
+.grid--row {
+  height: 32px;
+}
+</style>
