@@ -1,7 +1,7 @@
 <template>
   <div :class="typeClass" @click="cellChangeType()"
-                          @click.ctrl="cellSetStart"
-                          @click.shift="cellSetGoal">
+                          @click.ctrl="cellSetStart()"
+                          @click.shift="cellSetGoal()">
     <span class='direction'>{{direction}}</span>
   </div>
 </template>
@@ -14,8 +14,6 @@ export default {
     x: Number,
     y: Number,
     parent: Object,
-    isStart: Boolean,
-    isGoal: Boolean,
     changeType: Function,
     setStart: Function,
     setGoal: Function
@@ -47,6 +45,12 @@ export default {
     },
     cellChangeType () {
       this.cellType = this.changeType(this.x, this.y, this.cellType)
+    },
+    cellSetStart () {
+      this.cellType = this.setStart(this.x, this.y)
+    },
+    cellSetGoal () {
+      this.cellType = this.setGoal(this.x, this.y)
     }
   }
 }

@@ -95,6 +95,14 @@ export default {
       // remove from obstacles
       return this.CELL.GOAL
     }
+  },
+  watch: {
+    start: function () {
+      console.log('start changed')
+    },
+    goal: function () {
+      console.log('goal changed')
+    }
   }
 }
 </script>
