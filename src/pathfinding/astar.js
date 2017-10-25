@@ -19,7 +19,17 @@ class AStar {
   }
 
   bfs (from, to) {
-    let frontier = new Queue()
+    let frontier = new Queue([], (a, b) => {
+      // comparator needs to prioritize coords closest to start
+      const adx = Math.abs(a.x - from.x)
+      const ady = Math.abs(a.y - from.y)
+      const bdx = Math.abs(b.x - from.x)
+      const bdy = Math.abs(b.y - from.y)
+
+      const xdiff = adx - bdx
+      const ydiff = ady - bdy
+      return Math.min(xdiff, ydiff)
+    })
     let cameFrom = {}
 
     frontier.push(from)
