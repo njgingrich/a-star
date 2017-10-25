@@ -1,7 +1,7 @@
 <template>
-  <div :class="typeClass" @click="changeType"
-                          @click.ctrl="setStart"
-                          @click.shift="setGoal">
+  <div :class="typeClass" @click="cellChangeType()"
+                          @click.ctrl="cellSetStart"
+                          @click.shift="cellSetGoal">
     <span class='direction'>{{direction}}</span>
   </div>
 </template>
@@ -15,23 +15,17 @@ export default {
     y: Number,
     parent: Object,
     isStart: Boolean,
-    isGoal: Boolean
+    isGoal: Boolean,
+    changeType: Function,
+    setStart: Function,
+    setGoal: Function
   },
   data () {
     return {
-      CELL: {
-        NONE: 'none',
-        OBSTACLE: 'obstacle',
-        START: 'start',
-        GOAL: 'goal',
-        PATH: 'path'
-      }
+      cellType: this.type
     }
   },
   computed: {
-    cellType: function () {
-      return `${this.type}`
-    },
     typeClass: function () {
       return `cell cell-${this.cellType}`
     },
@@ -40,27 +34,6 @@ export default {
     }
   },
   methods: {
-    changeType: function () {
-      console.log(`(${this.x}, ${this.y})`)
-      if (this.celltype === this.CELL.NONE) {
-        this.celltype = this.CELL.OBSTACLE
-      }
-      else if (this.celltype === this.CELL.OBSTACLE) {
-        this.celltype = this.CELL.START
-      }
-      else if (this.celltype === this.CELL.START) {
-        this.celltype = this.CELL.GOAL
-      }
-      else if (this.celltype === this.CELL.GOAL) {
-        this.celltype = this.CELL.NONE
-      }
-    },
-    setStart: function () {
-      this.celltype = this.CELL.START
-    },
-    setGoal: function () {
-      this.celltype = this.CELL.GOAL
-    },
     getDirectionFromParent: function () {
       const p = this.parent
       if (p === null || p === undefined) return `\u0020` // root node
@@ -71,6 +44,9 @@ export default {
       else if (this.x === p.x && this.y - 1 === p.y) return `↑`
       else if (this.x === p.x && this.y + 1 === p.y) return `↓`
       else return `?`
+    },
+    cellChangeType () {
+      this.cellType = this.changeType(this.x, this.y, this.cellType)
     }
   }
 }

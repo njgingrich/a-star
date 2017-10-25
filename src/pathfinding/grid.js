@@ -2,9 +2,10 @@ import Node from './node'
 import Coord from './coord'
 
 class Grid {
-  constructor (rows, cols) {
+  constructor (rows, cols, obstacles) {
     this.rows = rows
     this.cols = cols
+    this.obstacles = obstacles
     this.grid = this.setupGrid()
   }
 
@@ -34,7 +35,7 @@ class Grid {
 
     let neighbors = [north, south, east, west]
     neighbors = neighbors.filter(c => {
-      return this.isWalkable(c) && this.withinBounds(c)
+      return this.isWalkable(c)
     })
     return neighbors.map(n => {
       // y = rows, x = cols
@@ -62,9 +63,10 @@ class Grid {
    * @param {Coord} coord The coordinate to check
    */
   isWalkable (coord) {
-    // let node = this.grid[coord.x][coord.y]
-    // return (node.weight !== 1) && this.withinBounds(coord)
-    return this.withinBounds(coord)
+    const isObstacle = this.obstacles.filter(obstacle => {
+      return (coord.x === obstacle.x && coord.y === obstacle.y)
+    }).length > 0
+    return this.withinBounds(coord) && !isObstacle
   }
 
   /**

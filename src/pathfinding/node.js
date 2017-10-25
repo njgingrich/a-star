@@ -1,13 +1,7 @@
 class Node {
-  constructor (parent, coord, weight = 0, h = 0, g = 0) {
+  constructor (parent, coord) {
     this.parent = parent
     this.coord = coord
-    this.weight = weight
-    this.g = g
-    this.h = h
-    this.f = weight + h
-    this.visited = false
-    this.closed = false
   }
 
   toString () {

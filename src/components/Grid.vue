@@ -6,7 +6,10 @@
       <cell v-for="c in cols"
             :key="c" :type="getType(c-1, r-1)"
             :x="c - 1" :y="r - 1"
-            :parent="getParent(c-1, r-1)">
+            :parent="getParent(c-1, r-1)"
+            :changeType="changeType"
+            :setStart="setStart"
+            :setGoal="setGoal">
       </cell>
     </div>
     <div :path="path"></div>
@@ -31,16 +34,22 @@ export default {
   },
   data () {
     return {
-      astar: new Astar(this.rows, this.cols)
+      obstacles: [],
+      CELL: {
+        NONE: 'none',
+        OBSTACLE: 'obstacle',
+        START: 'start',
+        GOAL: 'goal',
+        PATH: 'path'
+      }
     }
   },
   computed: {
+    astar: function () {
+      return new Astar(this.rows, this.cols, this.obstacles)
+    },
     path: function () {
       let path = this.astar.search(this.start, this.goal)
-
-      // Object.keys(path).forEach(coord => {
-      //   console.log(`${coord}, parent=${path[coord]}`)
-      // })
       return path
     }
   },
@@ -59,6 +68,32 @@ export default {
     },
     isGoal (x, y) {
       return (x === this.goal.x) && (y === this.goal.y)
+    },
+    changeType: function (x, y, type) {
+      // add/remove to obstacles as necessary
+      if (type === this.CELL.NONE) {
+        this.obstacles.push(new Coord(x, y))
+        console.log('obstacles:', this.obstacles)
+        return this.CELL.OBSTACLE
+      }
+      else if (type === this.CELL.OBSTACLE) {
+        return this.CELL.START
+        // TODO: only allow 1 start/goal
+      }
+      else if (type === this.CELL.START) {
+        return this.CELL.GOAL
+      }
+      else if (type === this.CELL.GOAL) {
+        return this.CELL.NONE
+      }
+    },
+    setStart: function (x, y) {
+      // remove from obstacles
+      return this.CELL.START
+    },
+    setGoal: function (x, y) {
+      // remove from obstacles
+      return this.CELL.GOAL
     }
   }
 }

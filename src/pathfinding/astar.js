@@ -3,10 +3,11 @@ import Grid from './grid'
 import Node from './node'
 
 class AStar {
-  constructor (rows, cols) {
+  constructor (rows, cols, obstacles) {
     this.rows = rows
     this.cols = cols
-    this.grid = new Grid(rows, cols)
+    this.obstacles = obstacles
+    this.grid = new Grid(rows, cols, obstacles)
   }
 
   search (from, to, type = 'bfs') {
