@@ -45,6 +45,7 @@ export default {
     getParent (x, y) {
       let coord = new Coord(x, y)
       console.log(`Cell ${coord} with parent ${this.path[coord]}`)
+      return this.path[coord]
     }
   }
 }

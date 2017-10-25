@@ -2,6 +2,7 @@
   <div :class="typeClass" @click="changeType"
                           @click.ctrl="setStart"
                           @click.shift="setGoal">
+    <span class='direction'>{{direction}}</span>
   </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
   props: {
     type: String,
     x: Number,
-    y: Number
+    y: Number,
+    parent: Object
   },
   data () {
     return {
@@ -28,6 +30,9 @@ export default {
   computed: {
     typeClass: function () {
       return `cell cell-${this.celltype}`
+    },
+    direction: function () {
+      return `${this.getDirectionFromParent()}`
     }
   },
   methods: {
@@ -51,6 +56,16 @@ export default {
     },
     setGoal: function () {
       this.celltype = this.CELL.GOAL
+    },
+    getDirectionFromParent: function () {
+      const p = this.parent
+      if (p === null) return `\u0020` // root node
+
+      if (this.x - 1 === p.x && this.y === p.y) return `←`
+      else if (this.x + 1 === p.x && this.y === p.y) return `→`
+      else if (this.x === p.x && this.y - 1 === p.y) return `↑`
+      else if (this.x === p.x && this.y + 1 === p.y) return `↓`
+      else return `?`
     }
   }
 }
@@ -82,5 +97,10 @@ export default {
 
 .cell-path {
   background-color: #aa4444;
+}
+
+.direction {
+  margin-left: 8px;
+  margin-right: 8px;
 }
 </style>

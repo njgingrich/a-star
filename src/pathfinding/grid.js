@@ -37,7 +37,8 @@ class Grid {
       return this.isWalkable(c) && this.withinBounds(c)
     })
     return neighbors.map(n => {
-      return this.grid[n.x][n.y].coord
+      // y = rows, x = cols
+      return this.grid[n.y][n.x].coord
     })
 
     // if (this.isWalkable(north) && this.withinBounds(north)) {
@@ -73,7 +74,7 @@ class Grid {
    */
   withinBounds (coord) {
     return (coord.x >= 0 && coord.x < this.cols) &&
-            (coord.y >= 0 && coord.y < this.rows)
+           (coord.y >= 0 && coord.y < this.rows)
   }
 
   cleanDirty (node) {
