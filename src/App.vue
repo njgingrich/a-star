@@ -30,8 +30,8 @@ export default {
       cols: 25,
       startX: 3,
       startY: 5,
-      goalX: 12,
-      goalY: 7,
+      goalX: 5,
+      goalY: 6,
       start: new Coord(3, 5),
       goal: new Coord(12, 6)
     }

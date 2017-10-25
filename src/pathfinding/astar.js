@@ -18,17 +18,16 @@ class AStar {
     }
   }
 
+  distance (p, q) {
+    return Math.sqrt(((p.x - q.x) ** 2) + ((p.y - q.y) ** 2))
+  }
+
   bfs (from, to) {
     let frontier = new Queue([], (a, b) => {
-      // comparator needs to prioritize coords closest to start
-      const adx = Math.abs(a.x - from.x)
-      const ady = Math.abs(a.y - from.y)
-      const bdx = Math.abs(b.x - from.x)
-      const bdy = Math.abs(b.y - from.y)
+      const vectorA = this.distance(a, from)
+      const vectorB = this.distance(b, from)
 
-      const xdiff = adx - bdx
-      const ydiff = ady - bdy
-      return Math.min(xdiff, ydiff)
+      return vectorA - vectorB
     })
     let cameFrom = {}
 
@@ -37,7 +36,6 @@ class AStar {
 
     while (frontier.length > 0) {
       let current = frontier.pop()
-
       if (current.x === to.x && current.y === to.y) break
 
       let neighbors = this.grid.findNeighbors(current)

@@ -38,9 +38,9 @@ export default {
     path: function () {
       let path = this.astar.search(this.start, this.goal)
 
-      Object.keys(path).forEach(coord => {
-        console.log(`${coord}, parent=${path[coord]}`)
-      })
+      // Object.keys(path).forEach(coord => {
+      //   console.log(`${coord}, parent=${path[coord]}`)
+      // })
       return path
     }
   },
