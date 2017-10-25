@@ -6,7 +6,11 @@
     <main>
       <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
       <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
-      <grid :rows="rows" :cols="cols" :start="start" :goal="goal"></grid>
+      <br>
+      <span>Start: </span><input class="btn-input" v-model.number="startX" type="number" size="2">,<input class="btn-input" v-model.number="startY" type="number" size="3">
+      <br>
+      <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
+      <grid :rows="rows" :cols="cols" :start="setStart" :goal="setGoal"></grid>
     </main>
   </div>
 </template>
@@ -24,8 +28,20 @@ export default {
     return {
       rows: 15,
       cols: 25,
+      startX: 3,
+      startY: 5,
+      goalX: 12,
+      goalY: 7,
       start: new Coord(3, 5),
       goal: new Coord(12, 6)
+    }
+  },
+  computed: {
+    setStart: function () {
+      return new Coord(this.startX, this.startY)
+    },
+    setGoal: function () {
+      return new Coord(this.goalX, this.goalY)
     }
   }
 }
@@ -53,7 +69,7 @@ main {
 }
 
 .btn-input {
-  display: inline;
-  margin: 1rem 2rem;
+  width: 2rem;
+  margin: 0.5rem 1rem;
 }
 </style>
