@@ -4,8 +4,8 @@
       <h1>A* Visualization</h1>
     </header>
     <main>
-      <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
       <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
+      <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
       <grid :rows="rows" :cols="cols"></grid>
     </main>
   </div>

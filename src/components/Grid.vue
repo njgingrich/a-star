@@ -1,6 +1,8 @@
 <template>
   <div class="grid">
+    <div class="cell" v-for="i in cols + 1" :key="i">{{ i - 2 }}</div>
     <div class="grid--row" v-for="r in rows" :key="r">
+      <div class="cell">{{ r - 1 }}</div>
       <cell v-for="c in cols"
             :key="c" :type="type"
             :x="c - 1" :y="r - 1"
