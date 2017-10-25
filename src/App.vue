@@ -6,13 +6,14 @@
     <main>
       <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
       <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
-      <grid :rows="rows" :cols="cols"></grid>
+      <grid :rows="rows" :cols="cols" :start="start" :goal="goal"></grid>
     </main>
   </div>
 </template>
 
 <script>
 import Grid from './components/Grid'
+import Coord from './pathfinding/coord'
 
 export default {
   name: 'app',
@@ -22,7 +23,9 @@ export default {
   data () {
     return {
       rows: 15,
-      cols: 25
+      cols: 25,
+      start: new Coord(3, 5),
+      goal: new Coord(12, 6)
     }
   }
 }

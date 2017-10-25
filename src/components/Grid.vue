@@ -4,7 +4,7 @@
     <div class="grid--row" v-for="r in rows" :key="r">
       <div class="cell">{{ r - 1 }}</div>
       <cell v-for="c in cols"
-            :key="c" :type="type"
+            :key="c" :type="getType(c-1, r-1)"
             :x="c - 1" :y="r - 1"
             :parent="getParent(c-1, r-1)">
       </cell>
@@ -25,17 +25,18 @@ export default {
   },
   props: {
     rows: Number,
-    cols: Number
+    cols: Number,
+    start: Object, // Coord
+    goal: Object // Coord
   },
   data () {
     return {
-      type: 'none',
       astar: new Astar(this.rows, this.cols)
     }
   },
   computed: {
     path: function () {
-      let path = this.astar.search(new Coord(0, 0), new Coord(3, 1))
+      let path = this.astar.search(this.start, this.goal)
 
       Object.keys(path).forEach(coord => {
         console.log(`${coord}, parent=${path[coord]}`)
@@ -46,8 +47,18 @@ export default {
   methods: {
     getParent (x, y) {
       let coord = new Coord(x, y)
-      console.log(`Cell ${coord} with parent ${this.path[coord]}`)
       return this.path[coord]
+    },
+    getType (x, y) {
+      if (this.isStart(x, y)) return `start`
+      if (this.isGoal(x, y)) return `goal`
+      else return `none`
+    },
+    isStart (x, y) {
+      return (x === this.start.x) && (y === this.start.y)
+    },
+    isGoal (x, y) {
+      return (x === this.goal.x) && (y === this.goal.y)
     }
   }
 }

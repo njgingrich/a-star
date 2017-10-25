@@ -27,8 +27,10 @@ class AStar {
 
     while (frontier.length > 0) {
       let current = frontier.pop()
-      let neighbors = this.grid.findNeighbors(current)
 
+      if (current.x === to.x && current.y === to.y) break
+
+      let neighbors = this.grid.findNeighbors(current)
       neighbors.forEach(neighbor => {
         if (!(neighbor in cameFrom)) {
           frontier.push(neighbor)

@@ -13,7 +13,9 @@ export default {
     type: String,
     x: Number,
     y: Number,
-    parent: Object
+    parent: Object,
+    isStart: Boolean,
+    isGoal: Boolean
   },
   data () {
     return {
@@ -23,13 +25,15 @@ export default {
         START: 'start',
         GOAL: 'goal',
         PATH: 'path'
-      },
-      celltype: this.type
+      }
     }
   },
   computed: {
+    cellType: function () {
+      return `${this.type}`
+    },
     typeClass: function () {
-      return `cell cell-${this.celltype}`
+      return `cell cell-${this.cellType}`
     },
     direction: function () {
       return `${this.getDirectionFromParent()}`
@@ -59,7 +63,8 @@ export default {
     },
     getDirectionFromParent: function () {
       const p = this.parent
-      if (p === null) return `\u0020` // root node
+      if (p === null || p === undefined) return `\u0020` // root node
+      if (this.x === undefined || this.y === undefined) return `\u0020` // no path found
 
       if (this.x - 1 === p.x && this.y === p.y) return `←`
       else if (this.x + 1 === p.x && this.y === p.y) return `→`
