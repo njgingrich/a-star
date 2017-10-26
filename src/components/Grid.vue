@@ -4,8 +4,11 @@
     <div class="grid--row" v-for="r in rows" :key="r">
       <div class="cell">{{ r - 1 }}</div>
       <cell v-for="c in cols"
-            :key="c" :type="getType(c-1, r-1)"
-            :x="c - 1" :y="r - 1"
+            :key="c"
+            :x="c - 1"
+            :y="r - 1"
+            :start="start"
+            :goal="goal"
             :parent="getParent(c-1, r-1)"
             :changeType="changeType"
             :setStart="setStart"
@@ -58,11 +61,6 @@ export default {
       let coord = new Coord(x, y)
       return this.path[coord]
     },
-    getType (x, y) {
-      if (this.isStart(x, y)) return `start`
-      if (this.isGoal(x, y)) return `goal`
-      else return `none`
-    },
     isStart (x, y) {
       return (x === this.start.x) && (y === this.start.y)
     },
@@ -94,14 +92,6 @@ export default {
     setGoal: function (x, y) {
       // remove from obstacles
       return this.CELL.GOAL
-    }
-  },
-  watch: {
-    start: function () {
-      console.log('start changed')
-    },
-    goal: function () {
-      console.log('goal changed')
     }
   }
 }

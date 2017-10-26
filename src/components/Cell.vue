@@ -1,7 +1,7 @@
 <template>
-  <div :class="typeClass" @click="cellChangeType()"
-                          @click.ctrl="cellSetStart()"
-                          @click.shift="cellSetGoal()">
+  <div :class="typeClass" @click="changeType()"
+                          @click.ctrl="setStart()"
+                          @click.shift="setGoal()">
     <span class='direction'>{{direction}}</span>
   </div>
 </template>
@@ -10,9 +10,10 @@
 export default {
   name: 'cell',
   props: {
-    type: String,
     x: Number,
     y: Number,
+    start: Object,
+    goal: Object,
     parent: Object,
     changeType: Function,
     setStart: Function,
@@ -20,15 +21,25 @@ export default {
   },
   data () {
     return {
-      cellType: this.type
     }
   },
   computed: {
     typeClass: function () {
-      return `cell cell-${this.cellType}`
+      return `cell cell-${this.type}`
     },
     direction: function () {
       return `${this.getDirectionFromParent()}`
+    },
+    isStart: function () {
+      return (this.x === this.start.x && this.y === this.start.y)
+    },
+    isGoal: function () {
+      return (this.x === this.goal.x && this.y === this.goal.y)
+    },
+    type: function () {
+      if (this.isStart) return `start`
+      if (this.isGoal) return `goal`
+      else return `none`
     }
   },
   methods: {
@@ -42,15 +53,6 @@ export default {
       else if (this.x === p.x && this.y - 1 === p.y) return `↑`
       else if (this.x === p.x && this.y + 1 === p.y) return `↓`
       else return `?`
-    },
-    cellChangeType () {
-      this.cellType = this.changeType(this.x, this.y, this.cellType)
-    },
-    cellSetStart () {
-      this.cellType = this.setStart(this.x, this.y)
-    },
-    cellSetGoal () {
-      this.cellType = this.setGoal(this.x, this.y)
     }
   }
 }
