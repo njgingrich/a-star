@@ -1,6 +1,6 @@
 <template>
-  <div :class="typeClass" @click="changeType()"
-                          @click.ctrl="setStart()"
+  <div :class="typeClass" @click="setObstacle(x, y)"
+                          @click.ctrl="setStart(this.x, this.y)"
                           @click.shift="setGoal()">
     <span class='direction'>{{direction}}</span>
   </div>
@@ -15,7 +15,8 @@ export default {
     start: Object,
     goal: Object,
     parent: Object,
-    changeType: Function,
+    isObstacle: Function,
+    setObstacle: Function,
     setStart: Function,
     setGoal: Function
   },
@@ -39,6 +40,7 @@ export default {
     type: function () {
       if (this.isStart) return `start`
       if (this.isGoal) return `goal`
+      if (this.isObstacle(this.x, this.y)) return `obstacle`
       else return `none`
     }
   },

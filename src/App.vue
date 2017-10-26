@@ -10,7 +10,7 @@
       <span>Start: </span><input class="btn-input" v-model.number="startX" type="number" size="2">,<input class="btn-input" v-model.number="startY" type="number" size="3">
       <br>
       <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
-      <grid :rows="rows" :cols="cols" :start="setStart" :goal="setGoal"></grid>
+      <grid :rows="rows" :cols="cols" :start="setStart" :goal="setGoal" :reset="reset"></grid>
     </main>
   </div>
 </template>
@@ -42,6 +42,14 @@ export default {
     },
     setGoal: function () {
       return new Coord(this.goalX, this.goalY)
+    }
+  },
+  methods: {
+    reset: function () {
+      this.startX = 3
+      this.startY = 5
+      this.goalX = 12
+      this.goalY = 6
     }
   }
 }
