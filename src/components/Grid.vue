@@ -10,6 +10,7 @@
             :y="r - 1"
             :start="start"
             :goal="goal"
+            :obstacles="obstacles"
             :parent="getParent(c-1, r-1)"
             :toggleObstacle="toggleObstacle"
             :setStart="gridSetStart"
@@ -61,9 +62,6 @@ export default {
       let coord = new Coord(x, y)
       return this.path[coord]
     },
-    isObstacle (x, y) {
-      return (this.obstacles.indexOf(new Coord(x, y)) >= 0)
-    },
     toggleObstacle (x, y) {
       const index = this.obstacles.indexOf(new Coord(x, y))
       if (index >= 0) {
@@ -88,7 +86,7 @@ export default {
       this.setGoal(x, y)
     },
     resetGrid: function () {
-      this.obstacles = {}
+      this.obstacles = []
       this.reset()
     }
   }

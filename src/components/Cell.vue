@@ -13,27 +13,30 @@ export default {
     start: Object,
     goal: Object,
     parent: Object,
+    obstacles: Array,
     toggleObstacle: Function,
     setStart: Function,
     setGoal: Function
   },
   data () {
     return {
-      isObstacle: false
     }
   },
   computed: {
-    typeClass: function () {
+    typeClass () {
       return `cell cell-${this.type}`
     },
-    direction: function () {
+    direction () {
       return `${this.getDirectionFromParent()}`
     },
-    isStart: function () {
+    isStart () {
       return (this.x === this.start.x && this.y === this.start.y)
     },
-    isGoal: function () {
+    isGoal () {
       return (this.x === this.goal.x && this.y === this.goal.y)
+    },
+    isObstacle () {
+      return this.obstacles.filter(o => o.x === this.x && o.y === this.y).length > 0
     },
     type: function () {
       if (this.isStart) return `start`
@@ -66,15 +69,12 @@ export default {
       }
     },
     cellToggleObstacle (x, y) {
-      this.isObstacle = !this.isObstacle
       this.toggleObstacle(x, y)
     },
     cellSetStart (x, y) {
-      this.isObstacle = false
       this.setStart(x, y)
     },
     cellSetGoal (x, y) {
-      this.isObstacle = false
       this.setGoal(x, y)
     }
   }
