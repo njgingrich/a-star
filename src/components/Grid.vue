@@ -11,10 +11,9 @@
             :start="start"
             :goal="goal"
             :parent="getParent(c-1, r-1)"
-            :isObstacle="isObstacle"
-            :setObstacle="setObstacle"
-            :setStart="setStart"
-            :setGoal="setGoal">
+            :toggleObstacle="toggleObstacle"
+            :setStart="gridSetStart"
+            :setGoal="gridSetGoal">
       </cell>
     </div>
     <div :path="path"></div>
@@ -39,18 +38,13 @@ export default {
     cols: Number,
     start: Object, // Coord
     goal: Object, // Coord
-    reset: Function
+    reset: Function,
+    setStart: Function,
+    setGoal: Function
   },
   data () {
     return {
-      obstacles: [],
-      CELL: {
-        NONE: 'none',
-        OBSTACLE: 'obstacle',
-        START: 'start',
-        GOAL: 'goal',
-        PATH: 'path'
-      }
+      obstacles: []
     }
   },
   computed: {
@@ -68,22 +62,33 @@ export default {
       return this.path[coord]
     },
     isObstacle (x, y) {
-      const filtered = this.obstacles.filter(obs => (obs.x === x && obs.y === y))
-      return filtered.length > 0
+      return (this.obstacles.indexOf(new Coord(x, y)) >= 0)
     },
-    setObstacle (x, y) {
-      this.obstacles.push(new Coord(x, y))
+    toggleObstacle (x, y) {
+      const index = this.obstacles.indexOf(new Coord(x, y))
+      if (index >= 0) {
+        this.obstacles.splice(index, 1)
+      }
+      else {
+        this.obstacles.push(new Coord(x, y))
+      }
     },
-    setStart: function (x, y) {
-      // remove from obstacles
-      return this.CELL.START
+    gridSetStart (x, y) {
+      const index = this.obstacles.indexOf(new Coord(x, y))
+      if (index >= 0) {
+        this.obstacles.splice(index, 1)
+      }
+      this.setStart(x, y)
     },
-    setGoal: function (x, y) {
-      // remove from obstacles
-      return this.CELL.GOAL
+    gridSetGoal (x, y) {
+      const index = this.obstacles.indexOf(new Coord(x, y))
+      if (index >= 0) {
+        this.obstacles.splice(index, 1)
+      }
+      this.setGoal(x, y)
     },
     resetGrid: function () {
-      this.obstacles = []
+      this.obstacles = {}
       this.reset()
     }
   }

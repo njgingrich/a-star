@@ -10,7 +10,13 @@
       <span>Start: </span><input class="btn-input" v-model.number="startX" type="number" size="2">,<input class="btn-input" v-model.number="startY" type="number" size="3">
       <br>
       <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
-      <grid :rows="rows" :cols="cols" :start="setStart" :goal="setGoal" :reset="reset"></grid>
+      <grid :rows="rows"
+            :cols="cols"
+            :start="setStart"
+            :goal="setGoal"
+            :reset="reset"
+            :setStart="setNewStart"
+            :setGoal="setNewGoal"></grid>
     </main>
   </div>
 </template>
@@ -46,10 +52,16 @@ export default {
   },
   methods: {
     reset: function () {
-      this.startX = 3
-      this.startY = 5
-      this.goalX = 12
-      this.goalY = 6
+      this.setNewStart(3, 5)
+      this.setNewGoal(12, 6)
+    },
+    setNewStart: function (x, y) {
+      this.startX = x
+      this.startY = y
+    },
+    setNewGoal: function (x, y) {
+      this.goalX = x
+      this.goalY = y
     }
   }
 }

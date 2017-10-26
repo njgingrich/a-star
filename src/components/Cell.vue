@@ -1,7 +1,5 @@
 <template>
-  <div :class="typeClass" @click="setObstacle(x, y)"
-                          @click.ctrl="setStart(this.x, this.y)"
-                          @click.shift="setGoal()">
+  <div :class="typeClass" @click="cellClick">
     <span class='direction'>{{direction}}</span>
   </div>
 </template>
@@ -15,13 +13,13 @@ export default {
     start: Object,
     goal: Object,
     parent: Object,
-    isObstacle: Function,
-    setObstacle: Function,
+    toggleObstacle: Function,
     setStart: Function,
     setGoal: Function
   },
   data () {
     return {
+      isObstacle: false
     }
   },
   computed: {
@@ -40,12 +38,12 @@ export default {
     type: function () {
       if (this.isStart) return `start`
       if (this.isGoal) return `goal`
-      if (this.isObstacle(this.x, this.y)) return `obstacle`
+      if (this.isObstacle) return `obstacle`
       else return `none`
     }
   },
   methods: {
-    getDirectionFromParent: function () {
+    getDirectionFromParent () {
       const p = this.parent
       if (p === null || p === undefined) return `\u0020` // root node
       if (this.x === undefined || this.y === undefined) return `\u0020` // no path found
@@ -55,6 +53,29 @@ export default {
       else if (this.x === p.x && this.y - 1 === p.y) return `↑`
       else if (this.x === p.x && this.y + 1 === p.y) return `↓`
       else return `?`
+    },
+    cellClick (e) {
+      if (e.ctrlKey) {
+        this.cellSetStart(this.x, this.y)
+      }
+      else if (e.shiftKey) {
+        this.cellSetGoal(this.x, this.y)
+      }
+      else {
+        this.cellToggleObstacle(this.x, this.y)
+      }
+    },
+    cellToggleObstacle (x, y) {
+      this.isObstacle = !this.isObstacle
+      this.toggleObstacle(x, y)
+    },
+    cellSetStart (x, y) {
+      this.isObstacle = false
+      this.setStart(x, y)
+    },
+    cellSetGoal (x, y) {
+      this.isObstacle = false
+      this.setGoal(x, y)
     }
   }
 }
