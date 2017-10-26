@@ -6,6 +6,7 @@ class Grid {
     this.rows = rows
     this.cols = cols
     this.obstacles = obstacles
+    this.weights = {}
     this.grid = this.setupGrid()
   }
 
@@ -79,13 +80,9 @@ class Grid {
            (coord.y >= 0 && coord.y < this.rows)
   }
 
-  cleanDirty (node) {
-    this.dirty = []
-  }
-
-  markDirty (node) {
-    this.dirty.push(node)
-    node.isDirty = true
+  cost (from, to) {
+    if (!this.weights.hasOwnProperty(to)) return 1
+    return this.weights[to]
   }
 
   toString () {
