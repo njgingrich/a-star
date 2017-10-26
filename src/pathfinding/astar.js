@@ -10,7 +10,7 @@ class AStar {
     this.grid = new Grid(rows, cols, obstacles)
   }
 
-  search (from, to, type = 'bfs') {
+  search (from, to, type = 'dijkstras') {
     if (type === 'bfs') {
       return this.bfs(from, to)
     }
@@ -76,7 +76,7 @@ class AStar {
         const newCost = costsFor[current] + this.grid.cost(current, neighbor)
         if (!(neighbor in costsFor) || newCost < costsFor[neighbor]) {
           costsFor[neighbor] = newCost
-          frontier.put(new Node(current, neighbor, newCost))
+          frontier.push(new Node(current, neighbor, newCost))
           cameFrom[neighbor] = current
         }
       })

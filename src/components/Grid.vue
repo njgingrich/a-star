@@ -63,25 +63,25 @@ export default {
       return this.path[coord]
     },
     toggleObstacle (x, y) {
-      const index = this.obstacles.indexOf(new Coord(x, y))
-      if (index >= 0) {
-        this.obstacles.splice(index, 1)
+      if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
+        const ix = this.obstacles.indexOf({x, y})
+        this.obstacles.splice(ix, 1)
       }
       else {
         this.obstacles.push(new Coord(x, y))
       }
     },
     gridSetStart (x, y) {
-      const index = this.obstacles.indexOf(new Coord(x, y))
-      if (index >= 0) {
-        this.obstacles.splice(index, 1)
+      if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
+        const ix = this.obstacles.indexOf({x, y})
+        this.obstacles.splice(ix, 1)
       }
       this.setStart(x, y)
     },
     gridSetGoal (x, y) {
-      const index = this.obstacles.indexOf(new Coord(x, y))
-      if (index >= 0) {
-        this.obstacles.splice(index, 1)
+      if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
+        const ix = this.obstacles.indexOf({x, y})
+        this.obstacles.splice(ix, 1)
       }
       this.setGoal(x, y)
     },
