@@ -10,10 +10,14 @@
       <span>Start: </span><input class="btn-input" v-model.number="startX" type="number" size="2">,<input class="btn-input" v-model.number="startY" type="number" size="3">
       <br>
       <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
+      <select v-model="searchType">
+        <option v-for="type in SEARCH" :key="type">{{type}}</option>
+      </select>
       <grid :rows="rows"
             :cols="cols"
             :start="setStart"
             :goal="setGoal"
+            :searchType="searchType"
             :reset="reset"
             :setStart="setNewStart"
             :setGoal="setNewGoal"></grid>
@@ -39,7 +43,13 @@ export default {
       goalX: 5,
       goalY: 6,
       start: new Coord(3, 5),
-      goal: new Coord(12, 6)
+      goal: new Coord(12, 6),
+      SEARCH: {
+        BFS: 'bfs',
+        DIJKSTRAS: 'dijkstras',
+        ASTAR: 'astar'
+      },
+      searchType: 'dijkstras'
     }
   },
   computed: {

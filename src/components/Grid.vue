@@ -40,6 +40,7 @@ export default {
     cols: Number,
     start: Object, // Coord
     goal: Object, // Coord
+    searchType: String,
     reset: Function,
     setStart: Function,
     setGoal: Function
@@ -54,7 +55,7 @@ export default {
       return new Astar(this.rows, this.cols, this.obstacles)
     },
     searchResults: function () {
-      let results = this.astar.search(this.start, this.goal)
+      let results = this.astar.search(this.start, this.goal, this.searchType)
       return results
     },
     path: function () {
@@ -68,30 +69,34 @@ export default {
     },
     toggleObstacle (x, y) {
       if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
-        const ix = this.obstacles.indexOf({x, y})
-        this.obstacles.splice(ix, 1)
+        this.removeObstacle(x, y)
       }
       else {
-        this.obstacles.push(new Coord(x, y))
+        this.addObstacle(x, y)
       }
     },
     gridSetStart (x, y) {
-      if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
-        const ix = this.obstacles.indexOf({x, y})
-        this.obstacles.splice(ix, 1)
-      }
+      this.removeObstacle(x, y)
       this.setStart(x, y)
     },
     gridSetGoal (x, y) {
-      if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {
-        const ix = this.obstacles.indexOf({x, y})
-        this.obstacles.splice(ix, 1)
-      }
+      this.removeObstacle(x, y)
       this.setGoal(x, y)
     },
-    resetGrid: function () {
+    resetGrid () {
       this.obstacles = []
       this.reset()
+    },
+    removeObstacle (x, y) {
+      let i = 0
+      for (i; i < this.obstacles.length; i++) {
+        const o = this.obstacles[i]
+        if (x === o.x && y === o.y) break
+      }
+      this.obstacles.splice(i, 1)
+    },
+    addObstacle (x, y) {
+      this.obstacles.push(new Coord(x, y))
     }
   }
 }

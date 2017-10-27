@@ -17,9 +17,9 @@ class AStar {
     else if (type === 'dijkstras') {
       return this.dijkstras(from, to)
     }
-    // else if (type === 'astar') {
-    //   return this.findPath(from, to)
-    // }
+    else if (type === 'astar') {
+      return this.astar(from, to)
+    }
     else {
       return this.bfs(from, to)
     }
