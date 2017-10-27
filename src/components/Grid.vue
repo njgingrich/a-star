@@ -11,6 +11,7 @@
             :start="start"
             :goal="goal"
             :obstacles="obstacles"
+            :path="path"
             :parent="getParent(c-1, r-1)"
             :toggleObstacle="toggleObstacle"
             :setStart="gridSetStart"
@@ -52,15 +53,18 @@ export default {
     astar: function () {
       return new Astar(this.rows, this.cols, this.obstacles)
     },
+    searchResults: function () {
+      let results = this.astar.search(this.start, this.goal)
+      return results
+    },
     path: function () {
-      let path = this.astar.search(this.start, this.goal)
-      return path
+      return this.astar.reconstructPath(this.start, this.goal, this.searchResults)
     }
   },
   methods: {
     getParent (x, y) {
       let coord = new Coord(x, y)
-      return this.path[coord]
+      return this.searchResults[coord]
     },
     toggleObstacle (x, y) {
       if (this.obstacles.filter(o => o.x === x && o.y === y).length > 0) {

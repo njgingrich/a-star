@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import Coord from '../pathfinding/coord'
+
 export default {
   name: 'cell',
   props: {
@@ -14,6 +16,7 @@ export default {
     goal: Object,
     parent: Object,
     obstacles: Array,
+    path: Object,
     toggleObstacle: Function,
     setStart: Function,
     setGoal: Function
@@ -38,9 +41,13 @@ export default {
     isObstacle () {
       return this.obstacles.filter(o => o.x === this.x && o.y === this.y).length > 0
     },
+    isPath () {
+      return this.path.hasOwnProperty(new Coord(this.x, this.y))
+    },
     type: function () {
       if (this.isStart) return `start`
       if (this.isGoal) return `goal`
+      if (this.isPath) return `path`
       if (this.isObstacle) return `obstacle`
       else return `none`
     }
@@ -98,7 +105,7 @@ export default {
 }
 
 .cell-goal {
-  background-color: #a4e3ff;
+  background-color: #00d1b8;
 }
 
 .cell-obstacle {
@@ -106,7 +113,7 @@ export default {
 }
 
 .cell-path {
-  background-color: #aa4444;
+  background-color: #ffb5b5;
 }
 
 .direction {

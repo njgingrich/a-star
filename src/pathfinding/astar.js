@@ -82,6 +82,20 @@ class AStar {
       })
     }
     return cameFrom
+    // return this.reconstructPath(from, to, cameFrom)
+  }
+
+  reconstructPath (start, goal, cameFrom) {
+    let current = goal
+    let path = {}
+    path[current] = true
+
+    while (!(start.x === current.x && start.y === current.y)) {
+      current = cameFrom[current]
+      path[current] = true
+    }
+    path[start] = true
+    return path
   }
 
   /**
