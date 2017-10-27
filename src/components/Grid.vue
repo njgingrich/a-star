@@ -21,7 +21,7 @@
     <div :path="path"></div>
   </div>
 
-  <button @click="resetGrid">Reset</button>
+  <v-btn @click="resetGrid" color="primary">Reset</v-btn>
 </div>
 </template>
 

@@ -1,28 +1,47 @@
 <template>
   <v-app>
     <div id="app">
-      <Navbar app :title="title"></Navbar>
+      <Drawer :drawer="drawer" :toggle="toggleDrawer">
+        <h4>Customize Grid</h4>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-content>
+              <CoordInput name="Columns/Rows" :x="cols" :y="rows" :update="setNewDimensions"></CoordInput>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>
+              <CoordInput name="Start" :x="startX" :y="startY" :update="setNewStart"></CoordInput>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>
+              <CoordInput name="Goal" :x="goalX" :y="goalY" :update="setNewGoal"></CoordInput>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-select :items="Object.values(SEARCH)" v-model="searchType" label="Search Method" bottom>
+              </v-select>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </Drawer>
+      <Navbar :click="toggleDrawer" :title="title"></Navbar>
       <main>
         <v-content>
           <v-container fluid>
+            <grid :rows="rows"
+                  :cols="cols"
+                  :start="setStart"
+                  :goal="setGoal"
+                  :searchType="searchType"
+                  :reset="reset"
+                  :setStart="setNewStart"
+                  :setGoal="setNewGoal"></grid>
+
           </v-container>
         </v-content>
-        <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
-        <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
-        <CoordInput :x="startX" :y="startY" @input="updateStart"></CoordInput>
-        <br>
-        <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
-        <select v-model="searchType">
-          <option v-for="type in SEARCH" :key="type">{{type}}</option>
-        </select>
-        <grid :rows="rows"
-              :cols="cols"
-              :start="setStart"
-              :goal="setGoal"
-              :searchType="searchType"
-              :reset="reset"
-              :setStart="setNewStart"
-              :setGoal="setNewGoal"></grid>
       </main>
     </div>
   </v-app>
@@ -32,12 +51,16 @@
 import Grid from './components/Grid'
 import Coord from './pathfinding/coord'
 import Navbar from './components/layout/Navbar'
+import Drawer from './components/layout/Drawer'
+import CoordInput from './components/layout/CoordInput'
 
 export default {
   name: 'app',
   components: {
     Grid,
-    Navbar
+    Navbar,
+    Drawer,
+    CoordInput
   },
   data () {
     return {
@@ -50,6 +73,7 @@ export default {
       goalY: 6,
       start: new Coord(3, 5),
       goal: new Coord(12, 6),
+      drawer: true,
       SEARCH: {
         BFS: 'bfs',
         DIJKSTRAS: 'dijkstras',
@@ -68,8 +92,9 @@ export default {
   },
   methods: {
     reset: function () {
-      this.setNewStart(3, 5)
-      this.setNewGoal(12, 6)
+      this.setNewStart(this.random(0, 25), this.random(0, 15))
+      this.setNewGoal(this.random(0, 25), this.random(0, 15))
+      this.setNewDimensions(25, 15)
     },
     setNewStart (x, y) {
       this.startX = x
@@ -78,6 +103,18 @@ export default {
     setNewGoal (x, y) {
       this.goalX = x
       this.goalY = y
+    },
+    setNewDimensions (cols, rows) {
+      this.rows = rows
+      this.cols = cols
+    },
+    random (min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min)) + min
+    },
+    toggleDrawer () {
+      this.drawer = !this.drawer
     }
   }
 }
@@ -100,7 +137,6 @@ header {
 }
 
 main {
-  text-align: center;
   margin-top: 40px;
 }
 

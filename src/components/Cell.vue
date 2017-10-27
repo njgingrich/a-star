@@ -91,6 +91,7 @@ export default {
 <style lang="scss">
 .cell {
   display: inline-block;
+  text-align: center;
   width: 28px;
   height: 28px;
   margin: 0 2px 2px 2px;
