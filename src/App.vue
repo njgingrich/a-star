@@ -1,41 +1,47 @@
 <template>
-  <div id="app">
-    <header>
-      <h1>A* Visualization</h1>
-    </header>
-    <main>
-      <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
-      <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
-      <br>
-      <span>Start: </span><input class="btn-input" v-model.number="startX" type="number" size="2">,<input class="btn-input" v-model.number="startY" type="number" size="3">
-      <br>
-      <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
-      <select v-model="searchType">
-        <option v-for="type in SEARCH" :key="type">{{type}}</option>
-      </select>
-      <grid :rows="rows"
-            :cols="cols"
-            :start="setStart"
-            :goal="setGoal"
-            :searchType="searchType"
-            :reset="reset"
-            :setStart="setNewStart"
-            :setGoal="setNewGoal"></grid>
-    </main>
-  </div>
+  <v-app>
+    <div id="app">
+      <Navbar app :title="title"></Navbar>
+      <main>
+        <v-content>
+          <v-container fluid>
+          </v-container>
+        </v-content>
+        <span>Columns (X): </span><input class="btn-input" v-model.number="cols" type="number">
+        <span>Rows (Y): </span><input class="btn-input" v-model.number="rows" type="number">
+        <CoordInput :x="startX" :y="startY" @input="updateStart"></CoordInput>
+        <br>
+        <span>Goal: </span><input class="btn-input" v-model.number="goalX" type="number" size="2">,<input class="btn-input" v-model.number="goalY" type="number" size="3">
+        <select v-model="searchType">
+          <option v-for="type in SEARCH" :key="type">{{type}}</option>
+        </select>
+        <grid :rows="rows"
+              :cols="cols"
+              :start="setStart"
+              :goal="setGoal"
+              :searchType="searchType"
+              :reset="reset"
+              :setStart="setNewStart"
+              :setGoal="setNewGoal"></grid>
+      </main>
+    </div>
+  </v-app>
 </template>
 
 <script>
 import Grid from './components/Grid'
 import Coord from './pathfinding/coord'
+import Navbar from './components/layout/Navbar'
 
 export default {
   name: 'app',
   components: {
-    Grid
+    Grid,
+    Navbar
   },
   data () {
     return {
+      title: 'A* Visualization',
       rows: 15,
       cols: 25,
       startX: 3,
@@ -65,11 +71,11 @@ export default {
       this.setNewStart(3, 5)
       this.setNewGoal(12, 6)
     },
-    setNewStart: function (x, y) {
+    setNewStart (x, y) {
       this.startX = x
       this.startY = y
     },
-    setNewGoal: function (x, y) {
+    setNewGoal (x, y) {
       this.goalX = x
       this.goalY = y
     }
