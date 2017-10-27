@@ -49,7 +49,7 @@ export default {
         DIJKSTRAS: 'dijkstras',
         ASTAR: 'astar'
       },
-      searchType: 'dijkstras'
+      searchType: 'astar'
     }
   },
   computed: {

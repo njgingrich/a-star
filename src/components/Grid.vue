@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Astar from '../pathfinding/astar'
+import Pathfinder from '../pathfinding/pathfind'
 import Coord from '../pathfinding/coord'
 import Cell from './Cell'
 
@@ -51,15 +51,15 @@ export default {
     }
   },
   computed: {
-    astar: function () {
-      return new Astar(this.rows, this.cols, this.obstacles)
+    pathfinder: function () {
+      return new Pathfinder(this.rows, this.cols, this.obstacles)
     },
     searchResults: function () {
-      let results = this.astar.search(this.start, this.goal, this.searchType)
+      let results = this.pathfinder.search(this.start, this.goal, this.searchType)
       return results
     },
     path: function () {
-      return this.astar.reconstructPath(this.start, this.goal, this.searchResults)
+      return this.pathfinder.reconstructPath(this.start, this.goal, this.searchResults)
     }
   },
   methods: {

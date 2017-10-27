@@ -2,7 +2,7 @@ import Queue from 'tinyqueue'
 import Grid from './grid'
 import Node from './node'
 
-class AStar {
+class Pathfinder {
   constructor (rows, cols, obstacles) {
     this.rows = rows
     this.cols = cols
@@ -85,6 +85,35 @@ class AStar {
     // return this.reconstructPath(from, to, cameFrom)
   }
 
+  astar (from, to) {
+    let frontier = new Queue([], (a, b) => {
+      return a.priority - b.priority
+    })
+    let cameFrom = {}
+    let costsFor = {}
+
+    frontier.push(new Node(null, from, 0))
+    cameFrom[from] = null
+    costsFor[from] = 0
+
+    while (frontier.length > 0) {
+      let current = frontier.pop().coord
+      if (current.x === to.x && current.y === to.y) break
+
+      let neighbors = this.grid.findNeighbors(current)
+      neighbors.forEach(neighbor => {
+        const newCost = costsFor[current] + this.grid.cost(current, neighbor)
+        if (!(neighbor in costsFor) || newCost < costsFor[neighbor]) {
+          const priority = newCost + this.manhattanDistance(neighbor, to)
+          costsFor[neighbor] = newCost
+          frontier.push(new Node(current, neighbor, priority))
+          cameFrom[neighbor] = current
+        }
+      })
+    }
+    return cameFrom
+  }
+
   reconstructPath (start, goal, cameFrom) {
     let current = goal
     let path = {}
@@ -108,11 +137,6 @@ class AStar {
     return Math.abs(from.x - to.x) + Math.abs(from.y - to.y)
   }
 
-  printQueue (array) {
-    console.log('Current Queue:')
-    console.log(array.map(el => el.coord))
-  }
-
   retracePath (node) {
     let cur = node
     let path = []
@@ -124,4 +148,4 @@ class AStar {
   }
 }
 
-export default AStar
+export default Pathfinder
