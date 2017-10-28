@@ -92,8 +92,8 @@ export default {
 .cell {
   display: inline-block;
   text-align: center;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   margin: 0 1px 1px 1px;
 }
 
@@ -118,9 +118,9 @@ export default {
 }
 
 .direction {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
   color: #eee;
   overflow: hidden;
 }

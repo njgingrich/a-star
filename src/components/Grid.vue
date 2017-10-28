@@ -104,6 +104,6 @@ export default {
 
 <style lang="scss" scoped>
 .grid--row {
-  height: 22px;
+  height: 24px;
 }
 </style>

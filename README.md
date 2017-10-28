@@ -1,6 +1,6 @@
-# a-star
+# A*
 
-> A* implementation
+> A* visual implementation built with Vue.js and Vuetify.
 
 ## Build Setup
 
@@ -23,5 +23,3 @@ npm run unit
 # run all tests
 npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
