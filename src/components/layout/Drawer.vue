@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     persistent
-    permanent
     v-model="isOpen"
     clipped
     disable-route-watcher

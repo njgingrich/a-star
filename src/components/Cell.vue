@@ -1,6 +1,6 @@
 <template>
   <div :class="typeClass" @click="cellClick">
-    <span class='direction'>{{direction}}</span>
+    <i class="material-icons direction">{{direction}}</i>
   </div>
 </template>
 
@@ -58,10 +58,10 @@ export default {
       if (p === null || p === undefined) return `\u0020` // root node
       if (this.x === undefined || this.y === undefined) return `\u0020` // no path found
 
-      if (this.x - 1 === p.x && this.y === p.y) return `←`
-      else if (this.x + 1 === p.x && this.y === p.y) return `→`
-      else if (this.x === p.x && this.y - 1 === p.y) return `↑`
-      else if (this.x === p.x && this.y + 1 === p.y) return `↓`
+      if (this.x - 1 === p.x && this.y === p.y) return `keyboard_arrow_left`
+      else if (this.x + 1 === p.x && this.y === p.y) return `keyboard_arrow_right`
+      else if (this.x === p.x && this.y - 1 === p.y) return `keyboard_arrow_up`
+      else if (this.x === p.x && this.y + 1 === p.y) return `keyboard_arrow_down`
       else return `?`
     },
     cellClick (e) {
@@ -92,9 +92,9 @@ export default {
 .cell {
   display: inline-block;
   text-align: center;
-  width: 28px;
-  height: 28px;
-  margin: 0 2px 2px 2px;
+  width: 20px;
+  height: 20px;
+  margin: 0 1px 1px 1px;
 }
 
 .cell-none {
@@ -118,7 +118,10 @@ export default {
 }
 
 .direction {
-  margin-left: 8px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: #eee;
+  overflow: hidden;
 }
 </style>
