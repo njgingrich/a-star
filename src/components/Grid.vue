@@ -1,5 +1,6 @@
 <template>
 <div>
+  <p>Click to set an obstacle.</p>
   <p>Ctrl+Click to set start.</p>
   <p>Shift+Click to set goal.</p>
   <div class="grid">
