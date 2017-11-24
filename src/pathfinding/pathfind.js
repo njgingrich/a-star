@@ -10,6 +10,14 @@ class Pathfinder {
     this.grid = new Grid(rows, cols, obstacles)
   }
 
+  /**
+   * Find the shortest path between two coordinates using
+   * the specified algorithm.
+   *
+   * @param {Coord} from The starting coordinate
+   * @param {Coord} to The ending coordinate
+   * @param {String} type The type of search method to use
+   */
   search (from, to, type = 'dijkstras') {
     if (type === 'bfs') {
       return this.bfs(from, to)
@@ -25,10 +33,23 @@ class Pathfinder {
     }
   }
 
+  /**
+   * Give the Euclidian difference between two coordinates.
+   *
+   * @param {Coord} p
+   * @param {Coord} q
+   */
   distance (p, q) {
     return Math.sqrt(((p.x - q.x) ** 2) + ((p.y - q.y) ** 2))
   }
 
+  /**
+   * Perform breadth-first search from the starting to the goal coord.
+   *
+   * @param {Coord} from The starting coordinate
+   * @param {Coord} to The ending coordinate
+   * @returns An object of coordinates (as keys) that map to their parent
+   */
   bfs (from, to) {
     let frontier = new Queue([], (a, b) => {
       const vectorA = this.distance(a, from)
@@ -56,6 +77,13 @@ class Pathfinder {
     return cameFrom
   }
 
+  /**
+   * Search from the starting to the goal coord using Dijkstra's algorithm.
+   *
+   * @param {Coord} from The starting coordinate
+   * @param {Coord} to The ending coordinate
+   * @returns An object of coordinates (as keys) that map to their parent
+   */
   dijkstras (from, to) {
     let frontier = new Queue([], (a, b) => {
       return a.priority - b.priority
@@ -82,9 +110,15 @@ class Pathfinder {
       })
     }
     return cameFrom
-    // return this.reconstructPath(from, to, cameFrom)
   }
 
+  /**
+   * Search from the starting to the goal coord using the A* algorithm.
+   *
+   * @param {Coord} from The starting coordinate
+   * @param {Coord} to The ending coordinate
+   * @returns An object of coordinates (as keys) that map to their parent
+   */
   astar (from, to) {
     let frontier = new Queue([], (a, b) => {
       return a.priority - b.priority
@@ -114,6 +148,14 @@ class Pathfinder {
     return cameFrom
   }
 
+  /**
+   * Reconstruct the path from the start to the goal.
+   *
+   * @param {Coord} start The starting coordinate
+   * @param {Coord} goal The ending coordinate
+   * @param {Object} cameFrom An object of Coords mapped to their parent Coords
+   * @returns An object of coords making up the path
+   */
   reconstructPath (start, goal, cameFrom) {
     let current = goal
     let path = {}
@@ -137,6 +179,13 @@ class Pathfinder {
     return Math.abs(from.x - to.x) + Math.abs(from.y - to.y)
   }
 
+  /**
+   * Find the path of nodes, given the goal node and retracing
+   * to find the starting node.
+   *
+   * @param {Node} node The starting node
+   * @returns An array of Coords that represent the final path found
+   */
   retracePath (node) {
     let cur = node
     let path = []

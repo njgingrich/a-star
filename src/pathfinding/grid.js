@@ -7,10 +7,13 @@ class Grid {
     this.cols = cols
     this.obstacles = obstacles
     this.weights = {}
-    this.grid = this.setupGrid()
+    this.grid = this._setupGrid()
   }
 
-  setupGrid () {
+  /**
+   * Initialize the grid as a 2D array of Nodes.
+   */
+  _setupGrid () {
     let grid = []
     for (let r = 0; r < this.rows; r++) {
       let row = []
@@ -26,7 +29,7 @@ class Grid {
    * Find the (up to) 4 adjacent coordinates to the given coordinate.
    *
    * @param {Coord} coord The coordinate to look around
-   * @return Node[]
+   * @return An array of walkable coordinates adjacent to the given coordinate
    */
   findNeighbors (coord) {
     const north = coord.north()
@@ -42,26 +45,13 @@ class Grid {
       // y = rows, x = cols
       return this.grid[n.y][n.x].coord
     })
-
-    // if (this.isWalkable(north) && this.withinBounds(north)) {
-    //   neighbors.push(this.grid[north.x][north.y])
-    // }
-    // if (this.isWalkable(south) && this.withinBounds(south)) {
-    //   neighbors.push(this.grid[south.x][south.y])
-    // }
-    // if (this.isWalkable(east) && this.withinBounds(east)) {
-    //   neighbors.push(this.grid[east.x][east.y])
-    // }
-    // if (this.isWalkable(west) && this.withinBounds(west)) {
-    //   neighbors.push(this.grid[west.x][west.y])
-    // }
-    // return neighbors
   }
 
   /**
-   * Check if a coordinate is passable or not.
+   * Check if a coordinate is walkable or not.
    *
    * @param {Coord} coord The coordinate to check
+   * @return Whether or not the coord is walkable
    */
   isWalkable (coord) {
     const isObstacle = this.obstacles.filter(obstacle => {
@@ -80,15 +70,15 @@ class Grid {
            (coord.y >= 0 && coord.y < this.rows)
   }
 
+  /**
+   * Get the cost to travel from 'from' to 'to'.
+   *
+   * @param {Coord} from The starting coordinate
+   * @param {Coord} to The ending coordinate
+   */
   cost (from, to) {
     if (!this.weights.hasOwnProperty(to)) return 1
     return this.weights[to]
-  }
-
-  toString () {
-    for (let x = 0; x < this.rows; x++) {
-      console.log(this.grid[x])
-    }
   }
 }
 
